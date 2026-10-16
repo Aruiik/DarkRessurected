@@ -24,6 +24,7 @@ public class PlayerInputManager : MonoBehaviour
     [Header("Player Action Input")]
     [SerializeField] bool dodgeInput = false;
     [SerializeField] bool sprintInput = false;
+    [SerializeField] bool jumpInput = false;
     public bool SprintInput => sprintInput;
 
 
@@ -70,6 +71,7 @@ public class PlayerInputManager : MonoBehaviour
             playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
             playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
             playerControls.PlayerActions.Dodge.performed += i => dodgeInput = true;
+            playerControls.PlayerActions.Jump.performed += i => jumpInput = true;
 
             // JAK TRZYMA SIĘ PRZYCISK TO BOOL SIĘ AKTYWUJE A JAK PUSZCZA SIĘ PRZYCISK TO BOOL SIĘ ZMIENIA NA FALSE
             playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
@@ -95,6 +97,7 @@ public class PlayerInputManager : MonoBehaviour
         HandleCameraMovementInput();
         HandlePlayerMovementInput();
         HandleDodgeInput();
+        HandleJumpInput();
     }
 
     // MOVEMEMNT
@@ -140,6 +143,20 @@ public class PlayerInputManager : MonoBehaviour
             // FUNKCJA 
             player.playerLocomotionManager.AttemptToPerformDodge();
         }
+    }
+
+    private void HandleJumpInput()
+    {
+        if (jumpInput)
+        {
+            jumpInput = false;
+
+            // JEŚLI MAMY OTWARTE OKIENKO UI TO NIE RÓB NIC
+
+            //SKOK
+            player.playerLocomotionManager.AttemptToPerformJump();
+        }
+        
     }
 
 }

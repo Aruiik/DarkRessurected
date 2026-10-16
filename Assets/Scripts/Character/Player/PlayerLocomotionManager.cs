@@ -8,16 +8,23 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     [HideInInspector] public float verticalMovement;
     [HideInInspector] public float horizontalMovement;
     [HideInInspector] public float moveAmount;
-    
+
 
     [Header("Movement Settings")]
     private Vector3 moveDirection;
     private Vector3 targetRotationDirection;
+    
+
     [SerializeField] float walkingSpeed = 2f;
     [SerializeField] float runningSpeed = 5f;
     [SerializeField] float sprintingSpeed = 8.5f;
     [SerializeField] float rotationSpeed = 15f;
     [SerializeField] float sprintingStaminaCost = 2f;
+
+    [Header("Jump")]
+    [SerializeField] float jumpStaminaCost = 2;
+    [SerializeField] float jumpHeight = 4;
+    private Vector3 jumpDirection;
 
     [Header("Dodge Settings")]
     private Vector3 rollDirection;
@@ -26,6 +33,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     [SerializeField] float dodgeStaminaCost = 2;
     // [SerializeField] float backStepSpeed = 2f;
     // [SerializeField] float backStepDuration = 0.5f;
+    
 
     protected override void Awake()
     {
@@ -38,6 +46,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     {
         HandleGroundedMovement();
         HandleRotation();
+        HandleJumpingMovement();
     }
 
     private void GetVerticalAndHorizontalInputs()
@@ -48,7 +57,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
     private void HandleGroundedMovement()
     {
-        if (!player.canMove)
+        if (!player.canMove || player.isJumping)
             return;
 
         GetVerticalAndHorizontalInputs();
@@ -78,6 +87,14 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         }
 
         player.characterController.Move(moveDirection * movementSpeed * Time.deltaTime);
+    }
+
+    private void HandleJumpingMovement()
+    {
+        if (player.isJumping)
+        {
+            player.characterController.Move(jumpDirection * runningSpeed * Time.deltaTime);
+        }
     }
     private void HandleRotation()
     {
@@ -123,6 +140,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             player.playerAnimatorManager.PlayTargetActionAnimation("Roll_Forward_01", true, false);
             print("ROLL");
             StartCoroutine(PerformRoll(rollDirection));
+            playerStatsManager.DrainStamina(dodgeStaminaCost);
         }
         else
         {
@@ -131,7 +149,65 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             print("BACK STEP");
         }
 
-        playerStatsManager.DrainStamina(dodgeStaminaCost);
+    }
+
+    public void AttemptToPerformJump()
+    {
+        print("AttemptToPerformJump activated");
+        // GDY COŚ INNEGO ROBIMY NP. ATAK, DODGE ITP. TO NIE CHCEMY POZWOLIĆ NA SKOK
+        if (player.isPerformingAction)
+            return;
+
+        // JAK NIE MAMY STAMINY TO NIE MOŻNA SKAKAĆ
+        if (playerStatsManager.currentStamina <= 0)
+        {
+            return;
+        }
+
+        if (player.isJumping)
+            return;
+
+        if (!player.isGrounded)
+            return;
+
+        // JAK MAMY DWURĘKĘ TO ODPAL ANIMACJĘ DWURĘKI
+
+        player.playerAnimatorManager.PlayTargetActionAnimation("Jump_Up", false, false, true, true);
+
+        ApplyJumpingVelocity();
+        player.isJumping = true;
+
+        playerStatsManager.DrainStamina(jumpStaminaCost);
+
+        jumpDirection = PlayerCamera.Instance.cameraObject.transform.forward * PlayerInputManager.Instance.verticalInput;
+        jumpDirection += PlayerCamera.Instance.cameraObject.transform.right * PlayerInputManager.Instance.horizontalInput;
+        jumpDirection.y = 0;
+
+
+        if (jumpDirection != Vector3.zero)
+        {
+            // JEŚLI SPRINTUJEMY TO DALEJ SKACZEMY
+            if (PlayerInputManager.Instance.SprintInput)
+            {
+                jumpDirection *= 1;
+            }
+            // JEŚLI BIEGNIEMY TO TROCHĘ MNIEJ SKACZEMY
+            else if(PlayerInputManager.Instance.moveAmount > 0.5)
+            {
+                jumpDirection *= 0.5f;
+            }
+            // A JAK IDZIEMY TO SKACZEMU NAJMNIEJ
+            else if(PlayerInputManager.Instance.moveAmount <= 0.5)
+            {
+                jumpDirection *= 0.25f;
+            }
+        }
+
+    }
+
+    public void ApplyJumpingVelocity()
+    {
+        yVelocity.y = Mathf.Sqrt(jumpHeight * -2 * gravityForce);
     }
 
     #region NUMERATOR_POD_ROLLA

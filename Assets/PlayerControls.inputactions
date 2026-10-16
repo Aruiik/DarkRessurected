@@ -116,6 +116,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "25a91c0a-57bd-4f87-8f06-9aec2ab5de72",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Sprint",
                     "type": "PassThrough",
                     "id": "2081af90-babc-4dd4-90f7-67d977311e0f",
@@ -134,6 +143,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Dodge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8b7a0ffb-f9c2-4358-b670-2a050ff3213b",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

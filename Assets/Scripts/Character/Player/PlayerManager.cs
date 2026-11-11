@@ -46,8 +46,11 @@ public class PlayerManager : CharacterManager
         playerUIHudManager = PlayerUIManager.Instance.playerUIHudManager;
         playerStatsManager.CurrentStaminaChanged -= playerUIHudManager.SetNewStaminaValue;
         playerStatsManager.CurrentStaminaChanged += playerUIHudManager.SetNewStaminaValue;
+        playerStatsManager.CurrentHealthChanged -= playerUIHudManager.SetNewHealthValue;
+        playerStatsManager.CurrentHealthChanged += playerUIHudManager.SetNewHealthValue;
         playerStatsManager.InitializeStats();
         playerUIHudManager.SetMaxStaminaValue(playerStatsManager.maxStamina);
+        playerUIHudManager.SetMaxHealthValue(playerStatsManager.maxHealth);
     }
     
 
@@ -56,4 +59,5 @@ public class PlayerManager : CharacterManager
         if (playerUIHudManager != null)
             playerStatsManager.CurrentStaminaChanged -= playerUIHudManager.SetNewStaminaValue;
     }
+    
 }

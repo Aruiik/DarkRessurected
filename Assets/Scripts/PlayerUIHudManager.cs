@@ -2,7 +2,26 @@ using UnityEngine;
 
 public class PlayerUIHudManager : MonoBehaviour
 {
-    [SerializeField] UI_StatBar staminaBar;
+    [SerializeField] public UI_StatBar healthBar;
+    [SerializeField] public UI_StatBar staminaBar;
+
+    public void RefreshHUD()
+    {
+        healthBar.gameObject.SetActive(false);
+        staminaBar.gameObject.SetActive(false);
+        healthBar.gameObject.SetActive(true);
+        staminaBar.gameObject.SetActive(true);
+    }
+
+    public void SetNewHealthValue(int oldValue, int newValue)
+    {
+        healthBar.SetStat(newValue);
+    }
+
+    public void SetMaxHealthValue(int maxHealth)
+    {
+        healthBar.SetMaxStat(maxHealth);
+    }  
 
     public void SetNewStaminaValue(int oldValue, int newValue)
     {
@@ -13,4 +32,6 @@ public class PlayerUIHudManager : MonoBehaviour
     {
         staminaBar.SetMaxStat(maxStamina);
     }
+
+
 }

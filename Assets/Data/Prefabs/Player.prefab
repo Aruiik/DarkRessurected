@@ -1561,9 +1561,10 @@ GameObject:
   - component: {fileID: 8991304649727465131}
   - component: {fileID: -3205855916291301701}
   - component: {fileID: -6894963929840974324}
-  - component: {fileID: -5633353179666816759}
-  - component: {fileID: 5089515781874161990}
   - component: {fileID: 233664944807694110}
+  - component: {fileID: -5633353179666816759}
+  - component: {fileID: -1283352267707010323}
+  - component: {fileID: 5089515781874161990}
   - component: {fileID: 4389724123732131598}
   - component: {fileID: -6945662512300846891}
   m_Layer: 6
@@ -1647,14 +1648,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4183a54226ba0e448b5841cd9a3e0ec6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerLocomotionManager
-  gravityForce: -40
+  gravityForce: -20
   groundCheckSphereRadius: 0.3
   groundLayer:
     serializedVersion: 2
     m_Bits: 1
   yVelocity: {x: 0, y: 0, z: 0}
-  groundedYVelocity: -20
-  fallStartYVelocity: -5
+  groundedYVelocity: -5
   playerStatsManager: {fileID: 0}
   verticalMovement: 0
   horizontalMovement: 0
@@ -1664,34 +1664,11 @@ MonoBehaviour:
   sprintingSpeed: 6.5
   rotationSpeed: 15
   sprintingStaminaCost: 2
+  jumpStaminaCost: 15
+  jumpHeight: 4
   rollSpeed: 7
   rollDuration: 0.8
-  dodgeStaminaCost: 2
-  jumpStaminaCost: 2
---- !u!114 &-5633353179666816759
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7282393190844545722}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3dffac209114cac488bd99e28606a79c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
---- !u!114 &5089515781874161990
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7282393190844545722}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c28389b597643bb43b6d58f3bc0c2cdf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerSoundFXManager
+  dodgeStaminaCost: 25
 --- !u!114 &233664944807694110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1707,7 +1684,48 @@ MonoBehaviour:
   playerStatsManager: {fileID: 0}
   staminaRegenerationDelay: 2
   staminaRegenerationAmmount: 2
-  endurance: 1
+  endurance: 30
+  vigor: 10
+--- !u!114 &-5633353179666816759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7282393190844545722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dffac209114cac488bd99e28606a79c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+--- !u!114 &-1283352267707010323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7282393190844545722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91d7521cd34874d48ab1a6c2362a7b9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerEffectsManager
+  healthBar: {fileID: 0}
+  staminaBar: {fileID: 0}
+  effectToTest: {fileID: 11400000, guid: 2493e2ce2b7220a44b37e7b5ff23a2af, type: 2}
+  processEffect: 0
+--- !u!114 &5089515781874161990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7282393190844545722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c28389b597643bb43b6d58f3bc0c2cdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSoundFXManager
 --- !u!143 &4389724123732131598
 CharacterController:
   m_ObjectHideFlags: 0

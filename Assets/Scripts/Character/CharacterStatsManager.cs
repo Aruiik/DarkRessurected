@@ -26,6 +26,15 @@ public class CharacterStatsManager : MonoBehaviour
         return stamina;
     }
 
+    public int CalculateHealthBasedOnVigorLevel(int vigor)
+    {
+        int health = 0;
+
+        health = vigor * 10;
+
+        return health;
+    }
+
     public virtual void RegenerateStamina()
     {
         // NIE REGENERUJEMY STAMINY PODCZAS SPRINTU
